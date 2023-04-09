@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-7gv&ta3w$pk954=j3s6-)-ac+bzl7g88j(j^gw4r@v7e0+00v6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['18.223.143.177']
 
 
 # Application definition
@@ -92,13 +92,23 @@ WSGI_APPLICATION = 'ytprj.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': BASE_DIR / 'db.sqlite3',
+#    }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'djangoprojectdb',
+        'USER': 'admin',
+        'PASSWORD': '123456789',
+        'HOST' : 'mysql-dbms.clvcnausweky.us-east-2.rds.amazonaws.com',
+        'PORT' : '3306',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
