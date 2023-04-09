@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %} <link rel="stylesheet" href="{% static 'css/osahan.css' %}" type="text/css">{% endblock style %}
+{% block content %}
+
+{% include 'partials/sidebar.html' %}
+<div id="content-wrapper">
+    <div class="container-fluid pb-0">
+       <div class="top-mobile-search">
+          <div class="row">
+             <div class="col-md-12">   
+                <form class="mobile-search">
+                   <div class="input-group">
+                     <input type="text" placeholder="Search for..." class="form-control">
+                       <div class="input-group-append">
+                         <button type="button" class="btn btn-dark"><i class="fas fa-search"></i></button>
+                       </div>
+                   </div>
+                </form>   
+             </div>
+          </div>
+       </div>
+
+       {% include 'channel/partials/channel-header.html' %}
+       
+       <div class="video-block section-padding">
+          <div class="row">
+             <div class="col-md-12">
+                <div class="main-title">
+                   <div class="btn-group float-right right-action">
+                      <a href="#" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Sort by <i class="fa fa-caret-down" aria-hidden="true"></i>
+                      </a>
+                      <div class="dropdown-menu dropdown-menu-right">
+                         <a class="dropdown-item" href="#"><i class="fas fa-fw fa-star"></i> &nbsp; Top Rated</a>
+                         <a class="dropdown-item" href="#"><i class="fas fa-fw fa-signal"></i> &nbsp; Viewed</a>
+                         <a class="dropdown-item" href="#"><i class="fas fa-fw fa-times-circle"></i> &nbsp; Close</a>
+                      </div>
+                   </div>
+                   <h6>All Videos</h6>
+                </div>
+             </div>
+           
+             
+
+          </div>
+
+          
+
+             {% for v in videos %}
+            <div class="col-xl-3 col-sm-6 mb-3">
+                <div class="video-card" style="border-radius: 4%;box-shadow: inset;">
+                   <div class="video-card-image">
+                      <a class="play-icon" href="#"><i class="fas fa-play-circle"></i></a>
+                      {% if v.image %}
+                      <a href="{% url 'video-detail' v.id %}"><img class="img-fluid" src="{{v.image.url}}" alt="" style="border-radius: 4%;box-shadow: inset;"></a>
+                      {% else %}
+                      <a href="{% url 'video-detail' v.id %}"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrf0lpB42PwkxZCIvkgPjzFbA4SMYVhjyVLDdrC5_OLJEAI4GCqBfknjVqIeqQXvHuX9A&usqp=CAU" alt="" style="border-radius: 4%;box-shadow: inset;"></a>
+                      {% endif %}
+                      <div class="time">3:50</div>
+                   </div>
+                   <div class="video-card-body">
+                      <div class="video-title">
+                         <a href="{% url 'video-detail' v.id %}">{{v.title|truncatechars:34}}</a>
+                      </div>
+
+                      <div class="video-page text-success">
+                        <a title="" data-placement="top" data-toggle="tooltip" href="{% url 'channel-profile' v.user.channel.id %}" data-original-title="Verified">{{v.user.channel.channel_name}} &nbsp; 
+                            {% if v.user.channel.verified == True %}  
+                            <i class="fas fa-check-circle"></i> &nbsp;
+                            {% endif %} 
+                            {% if v.user.channel.image %}
+                        <a href="{% url 'channel-profile' v.user.channel.id %}"><img src="{{ v.user.channel.image.url }}" alt="" width="20px" height="20px" style="border-radius: 50%;"></a> &nbsp;
+                        {% else %}
+                        <a href="{% url 'channel-profile' v.user.channel.id %}"><img src="https://cdn-icons-png.flaticon.com/512/1053/1053244.png?w=360" alt="" width="20px" height="20px" style="border-radius: 50%;"></a> &nbsp;
+                        {% endif %} 
+                          
+                          <i class="fas fa-check-circle text-success"></i>
+                        </a>
+                     </div>
+
+                      
+                      <div class="video-view mt-1">
+                        
+                         {{ v.views }} View{{ v.views|pluralize }} . &nbsp;<i class="fas fa-calendar-alt"></i> {{ v.date|timesince }} ago
+                      </div>
+                   </div>
+                </div>
+             </div>
+             {% endfor %}
+
+          </div>
+       </div>
+    </div>
+    <!-- /.container-fluid -->
+    {% endblock content %}
+    

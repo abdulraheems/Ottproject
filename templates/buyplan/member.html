@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}  <link rel="stylesheet" href="{% static 'css/osahan.css' %}" type="text/css">{% endblock style %}
+{% block content %}
+
+{% include 'partials/sidebar.html' %}
+
+
+<div id="content-wrapper">
+    <div class="container-fluid pb-0">
+       <div class="top-mobile-search">
+          <div class="row">
+             <div class="col-md-12">   
+                <form class="mobile-search">
+                   <div class="input-group">
+                     <input type="text" placeholder="Search for..." class="form-control">
+                       <div class="input-group-append">
+                         <button type="button" class="btn btn-dark"><i class="fas fa-search"></i></button>
+                       </div>
+                   </div>
+                </form>   
+             </div>
+          </div>
+       </div>
+       
+       <div class="video-block section-padding">
+          <div class="row">
+             
+
+
+
+<!--buying plans here-->
+
+<div class="container "  style="margin-bottom:150px;"> 
+    <div> 
+        <p class="h2 text-center mb-4">Choose Your Perfect Membership Plans</p> 
+        <P class="text-center mb-4"></P>
+    </div>
+    
+     <div class="row mt-3"> 
+        <div class="col-lg-6 col-md-6 ">
+            <div class="card d-flex align-items-center justify-content-center"> 
+                <div class="ribon mt-4"> <span class="fas fa-spray-can" style="background-color: #06f;font-size:70px;color:white"></span> </div> 
+                <p class="h-1 pt-5">Subscription Basic Plan</p> <span class="price">
+                    <span class="number"> $ 9.99</span> </span> <ul class="mb-5 list-unstyled text-muted"> <li><span class="fa fa-check me-2"></span>Monthly Plan</li> <li><span class="fa fa-check me-2"></span> Movies</li> <li><span class="fa fa-check me-2"></span> Tv Shows</li> <li><span class="fa fa-check me-2"></span> Educational content</li> <li><span class="fa fa-check me-2"></span> Two devices at a time</li> </ul> <div class="btn btn-primary"> get started </div> <br></div> </div> 
+                    
+                    <div class="col-lg-6 col-md-6 mt-md-0 mt-5"> <div class="card d-flex align-items-center justify-content-center"> <div class="ribon mt-4"> <span class="fas fa-broom" style="background-color: #06f;font-size:70px;color:white"></span> </div> <p class="h-1 pt-5">Subscription Standard Plan</p> <span class="price">  <span class="number"> $ 89</span> </span> <ul class="mb-5 list-unstyled text-muted"> <li><span class="fa fa-check me-2"></span> Yearly Plan</li> <li><span class="fa fa-check me-2"></span> Movies</li> <li><span class="fa fa-check me-2"></span> Tv Shows</li> <li><span class="fa fa-check me-2"></span> Educational content</li> <li><span class="fa fa-check me-2"></span> Three device at a time</li> </ul> <div class="btn btn-primary mb-3"> get started </div> </div> </div> 
+                    
+                    
+                    
+                   
+
+
+
+<!--End Buying plans-->
+
+
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+     </div>
+<!-- /.container-fluid -->
+{% endblock content %}

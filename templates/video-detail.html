@@ -1,0 +1,353 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block single %} <link rel="stylesheet" href="{% static 'css/single.css' %}" type="text/css">{% endblock single %}
+{% block style %} <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">{% endblock style %} 
+{% block content %}
+
+{% include 'partials/sidebar.html' %}
+ <div id="content-wrapper">
+    <div class="container-fluid pb-0">
+       <div class="video-block section-padding">
+          <div class="row">
+             <div class="col-md-8">
+                <div class="single-video-left">
+                   <div class="single-video">
+                    <video controls style="object-fit: cover;width:100%">
+                        <source width="100%" height="315" src="{{ video.video.url }}" type="video/mp4" poster="images/1.jpg">
+                    </video>
+                     <!-- <iframe width="100%" height="315" src="https://www.youtube-nocookie.com/embed/8LWZSGNjuF0?rel=0&amp;controls=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>-->
+                   </div>
+                   <div class="single-video-title box mb-3">
+                      <h2><a href="#">{{video.title}}</a></h2>
+                      <p class="mb-0"><i class="fas fa-eye"></i> {{ video.views }} view{{ video.views|pluralize }} &nbsp; 
+                        <a href="{% url 'save-video' video.id %}" style="color:#888">
+                        <i class="fas fa-bookmark"></i>
+                        <label for="">Watch Later</label>
+                    </a> &nbsp;
+                    <a href="{% url 'download-video' video.id %}" style="color:#888">
+                      <i class="fas fa-sharp fa-light fa-download"></i>
+                      <label for="">Download</label>
+                  </a>
+                  </p>
+                      
+                   </div>
+                   <div class="single-video-author box mb-3">
+                     <!-- <div class="float-right"><button class="btn btn-danger" type="button">Subscribe <strong>1.4M</strong></button> <button class="btn btn btn-outline-danger" type="button"><i class="fas fa-bell"></i></button></div>-->
+                      {% if video.user.channel.image %}
+                      <img class="img-fluid" src="{{ video.user.channel.image.url }}" alt="">
+                      {% else %}
+                      <img class="img-fluid" src="https://thumbs.dreamstime.com/b/default-avatar-profile-vector-user-profile-default-avatar-profile-vector-user-profile-profile-179376714.jpg" alt="">
+                      {% endif %}
+                      <p><a href="#"><strong>{{video.user.channel.channel_name}}</strong></a> {% if video.user.channel.verified == True %}<span title="" data-placement="top" data-toggle="tooltip" data-original-title="Verified"><i class="fas fa-check-circle text-success"></i></span>{% endif %}</p>
+                      <small>Published on Aug 10, 2018</small>
+                   </div>
+                   <div class="single-video-info-content box mb-3">
+                      
+                      <h6>About :</h6>
+                      <p>{{ video.description }} </p>
+                      <h6>Tags :</h6>
+                      
+                      <p class="tags mb-0">
+                        {% for tag in video.tags.all %}
+                         <span><a href="{% url 'tags' tag.slug %}">#{{tag.name}}</a></span>
+                         {% endfor %}
+                      </p>
+                      
+                   </div>
+                </div>
+
+<!--Comments here-->
+
+
+                      <h6>{{comment.count}} Comments</h6>
+                      
+
+                      
+                        <div class="container my-0 py-0">
+                          <div class="row d-flex justify-content-center">
+                            <div class="col-md-12 col-lg-12 col-xl-12">
+                              <div class="card">
+                                <div class="card-body">
+
+                                 {% for c in comment %}
+                                  <div class="d-flex flex-start align-items-center">
+                                    <img class="rounded-circle shadow-1-strong me-3"
+                                      src="https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg" alt="avatar" width="40"
+                                      height="40" /> &nbsp;&nbsp;&nbsp;
+                                    <div>
+                                      <h6 class="fw-bold text-primary mb-1">{{c.user.username|title}}</h6>
+                                      <p class="text-muted small mb-0">
+                                        Shared publicly - <span>{{c.date|timesince}} ago</span>
+                                      </p>
+                                    </div>
+                                  </div>
+                      
+                                  <p class="mt-3 mb-4 pb-2">
+                                    {{c.comment}}
+                                  </p>
+                                  
+                                  {% if c.user == request.user %}
+                                   <div class="icon">
+                                       <input type="hidden" value="{{ c.id }}" name="" id="">
+                                       <label for=""><button data-cid={{c.id}} class="btn-del" style="color: red;"><small>Delete</small></button></label>
+                                   </div>
+                                   {% endif %}
+                      
+                                </div>
+                                <div class="card-footer py-3 border-0" style="background-color: #f8f9fa;">
+                                 {% endfor %}
+
+                                  <div class="d-flex flex-start w-100">
+                                    {% if request.user.is_authenticated %}
+                                     <form action="" style="width: 100%;" id="comment_form">
+                                     {% csrf_token %}
+                                    
+                                      <input type="hidden" value="{{ video.id }}" id="id" name="id">
+                                    <div class="form-outline w-100">
+                                      <textarea class="form-control" rows="4"
+                                        style="background: #fff;" id="comment" name="comment"></textarea>
+                                      <label class="form-label" for="textAreaExample">Message</label>
+                                    </div>
+                                  </div>
+
+
+                                  <div class="float-end mt-2 pt-1">
+                                    <button type="submit" class="btn btn-primary btn-sm">Post comment</button>
+                                    <button type="button" class="btn btn-outline-primary btn-sm">Cancel</button>
+                                  </div>
+                                 </form>
+                                 {% else %}
+                  <a href="{% url 'sign-in' %}" style="margin-top: 10px;">*Login To Comment</a>
+                  {% endif %}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      
+
+
+
+                      
+
+<!--Comment ends here-->
+
+
+             </div>
+             <div class="col-md-4">
+                <div class="single-video-right">
+                   <div class="row">
+                      <div class="col-md-12">
+                         <div class="adblock">
+                            <div class="img">
+                               Google AdSense<br>
+                               336 x 280
+                            </div>
+                         </div>
+                         <div class="main-title">
+                            
+                            <h6>Up Next</h6>
+                         </div>
+                      </div>
+                      <div class="col-md-12">
+                        {% for s in similar_videos %}
+                        <div class="video-card video-card-list">
+                            <div class="video-card-image">
+                               <a class="play-icon" href="#"><i class="fas fa-play-circle"></i></a>
+                               <a href="{% url 'video-detail' s.id %}">
+                                 {% if s.image %}
+                                 <img class="img-fluid" src="{{s.image.url}}" alt="">
+                                 {% else %}
+                                 <img src="http://127.0.0.1:8000/watch/1/" alt="">
+                                 {% endif %}
+                              </a>
+                               <div class="time">3:50</div>
+                            </div>
+                            <div class="video-card-body">
+                               <div class="btn-group float-right right-action">
+                                  <a href="#" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                                  </a>
+                                  <div class="dropdown-menu dropdown-menu-right">
+                                     <a class="dropdown-item" href="#"><i class="fas fa-fw fa-star"></i> &nbsp; Top Rated</a>
+                                     <a class="dropdown-item" href="#"><i class="fas fa-fw fa-signal"></i> &nbsp; Viewed</a>
+                                     <a class="dropdown-item" href="#"><i class="fas fa-fw fa-times-circle"></i> &nbsp; Close</a>
+                                  </div>
+                               </div>
+                               <div class="video-title">
+                                  <a href="{% url 'video-detail' s.id %}">{{s.title|truncatechars:40}}</a>
+                               </div>
+                               <div class="video-page text-success">
+                                 {{s.user.channel.channel_name}}  {% if s.user.channel.verified == True %}<a title="" data-placement="top" data-toggle="tooltip" href="#" data-original-title="Verified"><i class="fas fa-check-circle text-success"></i>{% endif %}</a>
+                               </div>
+                               <div class="video-view">
+                                 {{s.views}} Views &nbsp;<i class="fas fa-calendar-alt"></i> {{s.date|timesince}} ago
+                               </div>
+                            </div>
+                         </div>
+                         {% endfor %}
+                         
+                         
+                        
+                      </div>
+                   </div>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+    <!-- /.container-fluid -->
+    <!-- Sticky Footer -->
+    
+ </div>
+ <!-- /.content-wrapper -->
+</div>
+<!-- /#wrapper -->
+    
+
+<script type="text/javascript">
+    $(document).on("submit", "#comment_form", function(e){
+        e.preventDefault()
+        // console.log("Comment Form is Submitted")
+        let _comment = $("#comment").val()
+        console.log(_comment);
+
+        $.ajax({
+            type: "POST",
+            url: "{% url 'save-comment' %}",
+            data: {
+                id: $("#id").val(),
+                comment: _comment,
+                csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val()
+            },
+            success: function(){
+                console.log("Comment passed to backend");
+
+                let _html = '<div class="details_Comment">\
+                        <div class="details flex">\
+                            <div class="img">\
+                                <img  src="https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg" alt="">\
+                            </div>\
+                            <div class="heading">\
+                                <h4><b>{{request.user.username|title}}</b> &nbsp; •<span>{% now "H:i" %}</span></h4>\
+                                <p> '+ _comment +' </p>\
+                                <div class="comment-like flex">\
+                                    <div class="icon">\
+                                        <label for=""><a href=""><small style="color: red;">Delete</small></a></label>\
+                                    </div>\
+                                </div>\
+                            </div>\
+                        </div>\
+                    </div>\
+                    <hr>\
+                    '
+
+                    $("#comment-wrapper").prepend(_html)
+                    $("#comment").val("")
+            },
+            error: function(error){
+                console.log(error);
+            }
+        })
+    })
+
+
+    // Deleting Comment
+    $("#comment-wrapper").on("click", ".btn-del", function(){
+        // console.log("Delete Comment Button is Clicked");
+        let id = $(this).attr("data-cid")
+
+        mydata = {
+            cid:id
+        }
+        mythis = $(this)
+
+        $.ajax({
+            type: "POST",
+            url: "{% url 'delete-comment' %}",
+            data: mydata,
+
+            success: function(data){
+                // console.log(data);
+                if(data.status === 1){
+                    // console.log("Comment Deleted");
+                    $(mythis).closest(".comment-tray").fadeOut();
+                }
+                if(data.status === 0){
+                    // console.log("Unable To Delete Comment");
+                    alert("Unable to delete comment, try again later...")
+                }
+            }
+        })
+    })
+</script>
+
+<!-- Subscribe Feature -->
+<script>
+    let subcounter = document.getElementById('count')
+    sub_button = document.getElementById('sub_btn')
+    subscriber_added = []
+    
+    function addsub(){
+        // sub_button.classList.add('loading')
+        axios
+        .get('{% url 'add_sub' video.user.id %}')
+        .then(response =>{
+                this.response = response.data;
+                sub_button.innerHTML =  this.response;
+                loadsub()
+                // sub_button.classList.remove('loading')
+                sub_button.classList.toggle("unsubscribe-btn")
+        })
+    }
+    
+    function loadsub(){
+        axios
+        .get('{% url "subLoad" channel.pk %}')
+        .then(response =>{
+                this.response = response.data;
+                subscriber_added = this.response
+                subcounter.innerHTML = subscriber_added.length
+
+    
+        })
+    }
+    
+    window.onload = loadsub();
+</script>
+
+<!-- Subscribe Feature -->
+<script>
+    let likescounter = document.getElementById('like-count')
+    like_button = document.getElementById('like-button')
+    likes_added = []
+    
+    function addlike(){
+        // sub_button.classList.add('loading')
+        axios
+        .get('{% url 'add_like' video.id %}')
+        .then(like_response =>{
+                this.like_response = like_response.data;
+                like_button.innerHTML =  this.like_response;
+                loadlike()
+                // sub_button.classList.remove('loading')
+                // sub_button.classList.toggle("unsubscribe-btn")
+        })
+    }
+    
+    function loadlike(){
+        axios
+        .get('{% url "likeLoad" video.id %}')
+        .then(like_response =>{
+                this.like_response = like_response.data;
+                likes_added = this.like_response
+                likescounter.innerHTML = likes_added.length
+
+    
+        })
+    }
+    
+    window.onload = loadsub();
+</script>
+
+{% endblock content %}

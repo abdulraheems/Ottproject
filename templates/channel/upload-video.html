@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %} <link rel="stylesheet" href="{% static 'css/osahan.css' %}" type="text/css">{% endblock style %}
+
+{% block content %}
+{% include 'partials/sidebar.html' %}
+<div id="content-wrapper">
+            <div class="container-fluid upload-details">
+               <div class="row">
+                  <div class="col-lg-12">
+                     <div class="main-title">
+                        <h6>Upload Details</h6>
+                     </div>
+                  </div>
+                  
+               </div>
+               <hr>
+               <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+               <div class="row">
+                  <div class="col-lg-12">
+                    {{ form.errors }}
+                     <div class="osahan-form">
+                        <div class="row">
+                           <div class="col-lg-12">
+                              <div class="form-group">
+                                 <label for="e1">Video Title</label>
+                            
+                                 {{form.title}}
+                              </div>
+                           </div>
+                           <div class="col-lg-12">
+                              <div class="form-group">
+                                 <label for="e2">Description</label>
+                                 
+                                 {{form.description}}
+                              </div>
+                           </div>
+                           <div class="col-lg-12">
+                            <div class="form-group">
+                               <label for="e1">Tags (Optional)</label>
+                          
+                               {{form.tags}}
+                            </div>
+                         </div>
+                         <div class="col-lg-12">
+                            <div class="form-group">
+                               <label for="e1">Thumbnail (required)</label>
+                          
+                               {{form.image}}
+
+                               <span class='button'><i class="material-icons">image</i></span>
+                        <span class='label' data-js-label>No image selected</label> <br>
+                        <img src="{{ video.image.url }}" style="width: 100%;" alt="">
+                            </div>
+                         </div>
+                         <div class="col-lg-12">
+                            <div class="form-group">
+                               <label for="e1">Video (required)</label>
+                          
+                               {{form.video}}
+
+                               <span class='button'><i class="material-icons">videocam</i></span>
+                               <span class='label' data-js-label>No video selected</label>
+                            </div>
+                         </div>
+
+                         {% if video.video.url %}
+                        <div class="video-div file-input">
+                            <span><small style="color: black;">Existing Video</small></span>
+                        <video style="width: 100%;" controls>
+                            <source style="width: 100%;" type="video/mp4" src="{{ video.video.url }}">
+                        </video>
+                        </div>
+                        {% endif %}
+                        </div>
+                      
+                     </div>
+
+                     <div class="video-div file-input">
+                        <small>visibility (required) </small> <br>
+                        <!-- <input type="file" class="file"> -->
+                        {{form.visibility}}
+
+                        <!-- <input type='file'> -->
+                        
+                    </div>
+                     <div class="osahan-area text-center mt-3">
+                        <button type="submit" class="btn btn-outline-primary">Save Changes</button>
+                     </div>
+                     <hr>
+                     
+                  </div>
+               </div>
+            </div>
+            <!-- /.container-fluid -->
+            <!-- Sticky Footer -->
+            
+         </div>
+         <!-- /.content-wrapper -->
+      </div>
+      <!-- /#wrapper -->
+      <!-- Scroll to Top Button-->
+      <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+      </a>
+    
+      {% endblock content %} 
